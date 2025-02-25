@@ -3,33 +3,30 @@
 @section('content')
                 
 <div class="container-fluid px-4">
-                        <h1 class="mt-4">Student</h1>
-                        <ol class="breadcrumb mb-4">
-                            <li class="breadcrumb-item active">Student</li>
-                        </ol>
+    <h1 class="mt-4">Student</h1>
+    <ol class="breadcrumb mb-4">
+        <li class="breadcrumb-item active">Student</li>
+    </ol>
 
-                        @if(session('confirmMessage'))
-                        <div class="alert alert-{{ session('alertType') }} alert-dismissible fade show" role="alert">
-                            {{ session('confirmMessage') }}
-                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                            </button>
-                        </div>
-                        @endif
+    @if(session('confirmMessage'))
+    <div class="alert alert-{{ session('alertType') }} alert-dismissible fade show" role="alert">
+        {{ session('confirmMessage') }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    @endif
 
-                 
-                       
-                       
-                        <div class="card mb-4">
-                            <div class="card-header">
-                                <i class="fas fa-table me-1"></i>
-                                DataTable Example
-                                <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">Add Student</button>
-                            </div>
-                            
-                            <div class="card-body">
-                                <table id="datatablesSimple">
-                                    <thead>
+    <div class="card mb-4">
+        <div class="card-header">
+            <i class="fas fa-table me-1"></i>
+            DataTable Example
+            <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">Add Student</button>
+        </div>
+        
+        <div class="card-body">
+            <table id="datatablesSimple">
+                <thead>
                     <tr>
                         <th>ID</th>
                         <th>Name</th>
@@ -37,6 +34,8 @@
                         <th>Email</th>
                         <th>Age</th>
                         <th>Moto</th>
+                        <th>College Level</th>
+                        <th>Password</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -48,6 +47,8 @@
                         <th>Email</th>
                         <th>Age</th>
                         <th>Moto</th>
+                        <th>College Level</th>
+                        <th>Password</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -60,6 +61,8 @@
                         <td>{{$student->email}}</td>
                         <td>{{$student->age}}</td>
                         <td>{{$student->moto}}</td>
+                        <td>{{$student->college_level}}</td>
+                        <td>{{$student->password}}</td>
                         <td>
                         <a href="#" onclick="viewStudent({{ json_encode($student) }})"><i class="fa-solid fa-eye"></i></a>&nbsp
                         <a href="#" onclick="editStudent({{ json_encode($student) }})"><i class="fa-solid fa-pen-to-square"></i></a>&nbsp
@@ -73,21 +76,19 @@
                     </td>
                     </tr>
                 @endforeach
-                   
-                    
                 </tbody>
-                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <script>
-                        function deleteStudent(id){
-                            alert(id);
-                            form=document.getElementById('student-form-'+id);
-                            form.submit();
-                        }
-                    </script>
-                    <!-- Include Bootstrap JS -->
+            </table>
+        </div>
+    </div>
+</div>
+<script>
+    function deleteStudent(id){
+        alert(id);
+        form=document.getElementById('student-form-'+id);
+        form.submit();
+    }
+</script>
+<!-- Include Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
 
@@ -123,6 +124,14 @@
                         <label for="editStudentMoto">Moto</label>
                         <input type="text" class="form-control" id="editStudentMoto" name="moto">
                     </div>
+                    <div class="form-group">
+                        <label for="editStudentCollegeLevel">College Level</label>
+                        <input type="text" class="form-control" id="editStudentCollegeLevel" name="college_level">
+                    </div>
+                    <div class="form-group">
+                        <label for="editStudentPassword">Password</label>
+                        <input type="password" class="form-control" id="editStudentPassword" name="password">
+                    </div>
                     <button type="submit" class="btn btn-primary">Save changes</button>
                 </form>
             </div>
@@ -137,6 +146,7 @@
         document.getElementById('editStudentEmail').value = student.email;
         document.getElementById('editStudentAge').value = student.age;
         document.getElementById('editStudentMoto').value = student.moto;
+        document.getElementById('editStudentCollegeLevel').value = student.college_level;
         
         // Set the form action to the correct route
         document.getElementById('editStudentForm').action = "{{ url('student') }}/" + student.id;
@@ -177,6 +187,14 @@
                         <label for="addStudentMoto">Moto</label>
                         <input type="text" class="form-control" id="addStudentMoto" name="moto" required>
                     </div>
+                    <div class="form-group">
+                        <label for="addStudentCollegeLevel">College Level</label>
+                        <input type="text" class="form-control" id="addStudentCollegeLevel" name="college_level" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="addStudentPassword">Password</label>
+                        <input type="password" class="form-control" id="addStudentPassword" name="password" required>
+                    </div>
                     <button type="submit" class="btn btn-primary">Add Student</button>
                 </form>
             </div>
@@ -199,6 +217,8 @@
                 <p><strong>Email:</strong> <span id="viewStudentEmail"></span></p>
                 <p><strong>Age:</strong> <span id="viewStudentAge"></span></p>
                 <p><strong>Moto:</strong> <span id="viewStudentMoto"></span></p>
+                <p><strong>College Level:</strong> <span id="viewStudentCollegeLevel"></span></p>
+                <p><strong>Password:</strong> <span id="viewStudentPassword"></span></p>
             </div>
         </div>
     </div>
@@ -212,11 +232,12 @@
         document.getElementById('viewStudentEmail').textContent = student.email;
         document.getElementById('viewStudentAge').textContent = student.age;
         document.getElementById('viewStudentMoto').textContent = student.moto;
+        document.getElementById('viewStudentCollegeLevel').textContent = student.college_level;
+        document.getElementById('viewStudentPassword').textContent = student.password;
 
         var viewModal = new bootstrap.Modal(document.getElementById('viewStudentModal'));
         viewModal.show();
     }
 </script>
 
- @endsection    
-                
+@endsection

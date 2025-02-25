@@ -42,6 +42,16 @@
             <input type="text" class="form-control" id="moto" name="moto" value="">
         </div>
 
+        <div class="form-group">
+            <label for="college_level">College Level</label>
+            <input type="text" class="form-control" id="college_level" name="college_level" value="">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password" value="">
+        </div>
+
         <button type="submit" class="btn btn-primary">save</button>
     </form>
 </div>

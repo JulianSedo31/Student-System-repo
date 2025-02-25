@@ -27,6 +27,8 @@ class StoreStudentRequest extends FormRequest
             "email" => "required|string|max:255",
             "age" => "required|integer|min:18",
             "moto" => "required|string|max:255",
+            "password" => "required|string|min:8",
+            "college_level" => "required|string|max:255"
         ];
     }
 
@@ -38,6 +40,8 @@ class StoreStudentRequest extends FormRequest
             'email' => strip_tags($this->email),
             'age' => strip_tags($this->age),
             'moto' => strip_tags($this->moto),
+            'password' => strip_tags($this->password),
+            'college_level' => strip_tags($this->college_level)
         ]);
     }
 }

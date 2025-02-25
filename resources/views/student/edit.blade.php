@@ -2,7 +2,6 @@
 @section('title', 'Edit')
 @section('content')
 
-
 <div class="container-fluid px-4">
     @if(session('confirmMessage'))
     <div class="alert alert-{{ session('alertType') }} alert-dismissible fade show" role="alert">
@@ -57,6 +56,22 @@
             @enderror
         </div>
 
+        <div class="form-group">
+            <label for="college_level">College Level</label>
+            <input type="text" class="form-control" id="college_level" name="college_level" value="{{ old('college_level', $student->college_level) }}">
+            @error('college_level')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" id="password" name="password">
+            @error('password')
+            <div class="text-danger">{{ $message }}</div>
+            @enderror
+        </div>
+
         <button type="submit" class="btn btn-primary">Update</button>
     </form>
 </div>
@@ -66,8 +81,6 @@
         back
     </button>
 </a>
-
-
 
 @endsection
 

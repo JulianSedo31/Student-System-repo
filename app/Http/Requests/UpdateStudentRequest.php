@@ -27,10 +27,12 @@ class UpdateStudentRequest extends FormRequest
             "email" => "required|string|max:255",
             "age" => "required|integer|min:18",
             "moto" => "required|string|max:255",
+            "password" => "nullable|string|min:8", // new attribute
+            "college_level" => "required|string|max:255" // new attribute
         ];
     }
 
-        /**
+    /**
      * Prepare the data for validation.
      */
     protected function prepareForValidation(): void
@@ -41,7 +43,8 @@ class UpdateStudentRequest extends FormRequest
             'email' => strip_tags($this->email),
             'age' => strip_tags($this->age),
             'moto' => strip_tags($this->moto),
+            'password' => strip_tags($this->password), // new attribute
+            'college_level' => strip_tags($this->college_level) // new attribute
         ]);
     }
-
 }

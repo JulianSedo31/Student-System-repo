@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Models\Student;
 use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Http\Request;
 
 class StudentController extends Controller
 {
@@ -42,6 +44,8 @@ class StudentController extends Controller
         $student->email = $data['email'];
         $student->age = $data['age'];
         $student->moto = $data['moto'];
+        $student->password = Hash::make($data['password']); // hash the password
+        $student->college_level = $data['college_level']; // set college level
         $student->save();
 
         // Set success message
@@ -80,21 +84,14 @@ class StudentController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(UpdateStudentRequest $request, Student $student)
+    public function update(Request $request, $id)
     {
-        $data = $request->validated();
-        $student->name = $data['name'];
-        $student->address = $data['address'];
-        $student->email = $data['email'];
-        $student->age = $data['age'];
-        $student->moto = $data['moto'];
-        $student->save();
-
-        // Set success message
-        session()->flash('confirmMessage', 'Student updated successfully');
-        session()->flash('alertType', 'success');
-
-        return redirect()->route('student.index');
+        $student = Student::findOrFail($id);
+        $student->update($request->all());
+        return redirect()->route('student.index')->with([
+            'confirmMessage' => 'Student updated successfully!',
+            'alertType' => 'success'
+        ]);
     }
 
     /**
