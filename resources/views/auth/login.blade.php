@@ -17,7 +17,7 @@
             border: none; /* Remove border for a cleaner look */
         }
         .form-control {
-            border-radius: 0.5rem; /* Rounded corners for inputs */
+            border-radius: 0.5rem; /* Rounded corners for inputs 123*/
         }
         .btn-primary {
             border-radius: 0.5rem; /* Rounded corners for button */
