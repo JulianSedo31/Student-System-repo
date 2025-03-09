@@ -60,6 +60,27 @@
             <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
         </div>
 
+        <!-- Example form fields for student registration -->
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input type="text" class="form-control" id="address" name="address" required>
+        </div>
+
+        <div class="form-group">
+            <label for="age">Age</label>
+            <input type="number" class="form-control" id="age" name="age" required>
+        </div>
+
+        <div class="form-group">
+            <label for="moto">Moto</label>
+            <input type="text" class="form-control" id="moto" name="moto" required>
+        </div>
+
+        <div class="form-group">
+            <label for="college_level">College Level</label>
+            <input type="text" class="form-control" id="college_level" name="college_level" required>
+        </div>
+
         <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
         <a class="underline text-sm text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 dark:focus:ring-offset-gray-800" href="{{ route('login') }}">
                 {{ __('Already registered?') }}
