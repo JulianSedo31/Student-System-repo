@@ -8,6 +8,9 @@ use App\Http\Requests\StoreStudentRequest;
 use App\Http\Requests\UpdateStudentRequest;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use App\Models\Grade;
+use App\Models\Subject;
 
 class StudentController extends Controller
 {
@@ -154,5 +157,25 @@ class StudentController extends Controller
         session()->flash('alertType', 'success');
 
         return redirect()->route('student.index');
+    }
+
+    public function showGrades()
+    {
+        $student = Auth::user();
+        $grades = Grade::with('subject')
+            ->where('student_id', $student->id)
+            ->get();
+        
+        return view('student.grades', compact('grades'));
+    }
+
+    public function showSubjects()
+    {
+        $student = Auth::user();
+        $subjects = Subject::whereHas('enrollments', function($query) use ($student) {
+            $query->where('student_id', $student->id);
+        })->get();
+        
+        return view('student.subjects', compact('subjects'));
     }
 }

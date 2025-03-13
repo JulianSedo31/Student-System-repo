@@ -34,5 +34,14 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth:web', 'verified'])->name('dashboard');
 
+// Student routes
+Route::middleware(['auth:web', 'role:student'])->group(function () {
+    Route::get('/student/dashboard', function () {
+        return view('student.dashboard');
+    })->name('student.dashboard');
+    
+    Route::get('/student/grades', [StudentController::class, 'showGrades'])->name('student.grades');
+    Route::get('/student/subjects', [StudentController::class, 'showSubjects'])->name('student.subjects');
+});
 
 require __DIR__.'/auth.php';
