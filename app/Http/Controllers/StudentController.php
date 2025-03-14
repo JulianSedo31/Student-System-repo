@@ -162,21 +162,29 @@ class StudentController extends Controller
 
     public function showGrades()
     {
-        $student = Auth::user();
+        // Get the authenticated student's ID
+        $studentId = Auth::user()->id;
+        
+        // Get grades for the authenticated student
         $grades = Grade::with('subject')
-            ->where('student_id', $student->id)
+            ->whereHas('student', function($query) use ($studentId) {
+                $query->where('id', $studentId);
+            })
             ->get();
         
-        return view('student.grades', compact('grades'));
+        return view('student.student-grades', compact('grades'));
     }
 
     public function showSubjects()
     {
-        $student = Auth::user();
+        // Get the authenticated student's ID
+        $studentId = Auth::user()->id;
+        
+        // Get enrollments for the authenticated student
         $enrollments = Enrollment::with('subject')
-            ->where('student_id', $student->id)
+            ->where('student_id', $studentId)
             ->get();
         
-        return view('student.subjects', ['enrollments' => $enrollments]);
+        return view('student.student-subjects', compact('enrollments'));
     }
 }

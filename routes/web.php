@@ -34,17 +34,19 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth:web', 'verified'])->name('dashboard');
 
-// Student routes - place these before the auth routes
+// Student routes with auth middleware
 Route::middleware(['auth'])->group(function () {
+    // Student dashboard
     Route::get('/student-dashboard', function () {
         if (auth()->user()->role !== 'student') {
             return redirect('/dashboard');
         }
         return view('student.dashboard');
-    })->name('student.dashboard');
+    })->name('student-dashboard');
     
-    Route::get('/student/grades', [StudentController::class, 'showGrades'])->name('student.grades');
-    Route::get('/student/subjects', [StudentController::class, 'showSubjects'])->name('student.subjects');
+    // Student grades and subjects
+    Route::get('/student-grades', [StudentController::class, 'showGrades'])->name('student.grades');
+    Route::get('/student-subjects', [StudentController::class, 'showSubjects'])->name('student.subjects');
 });
 
 require __DIR__.'/auth.php';

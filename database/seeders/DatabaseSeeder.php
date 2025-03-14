@@ -36,7 +36,7 @@ class DatabaseSeeder extends Seeder
 
         Student::factory(10)->create();
         Subject::factory(10)->create();
-        Enrollment::factory(10)->create();
-        Grade::factory(10)->create();
+        // Enrollment::factory(10)->create();
+        // Grade::factory(10)->create();
     }
 }

@@ -30,7 +30,7 @@ class AuthenticatedSessionController extends Controller
 
         // Redirect based on user role
         if ($request->user()->role === 'student') {
-            return redirect()->intended('/student-dashboard');
+            return redirect()->intended(route('student-dashboard'));
         }
 
         return redirect()->intended(route('dashboard'));
