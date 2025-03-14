@@ -162,14 +162,20 @@ class StudentController extends Controller
 
     public function showGrades()
     {
-        // Get the authenticated student's ID
-        $studentId = Auth::user()->id;
+        // Get the authenticated user
+        $user = Auth::user();
         
-        // Get grades for the authenticated student
+        // Get the associated student record
+        $student = Student::where('email', $user->email)->first();
+        
+        if (!$student) {
+            return redirect()->route('student-dashboard')
+                ->with('error', 'Student record not found');
+        }
+
+        // Get grades for the student
         $grades = Grade::with('subject')
-            ->whereHas('student', function($query) use ($studentId) {
-                $query->where('id', $studentId);
-            })
+            ->where('student_id', $student->id)
             ->get();
         
         return view('student.student-grades', compact('grades'));
@@ -177,12 +183,20 @@ class StudentController extends Controller
 
     public function showSubjects()
     {
-        // Get the authenticated student's ID
-        $studentId = Auth::user()->id;
+        // Get the authenticated user
+        $user = Auth::user();
         
-        // Get enrollments for the authenticated student
+        // Get the associated student record
+        $student = Student::where('email', $user->email)->first();
+        
+        if (!$student) {
+            return redirect()->route('student-dashboard')
+                ->with('error', 'Student record not found');
+        }
+
+        // Get enrollments for the student
         $enrollments = Enrollment::with('subject')
-            ->where('student_id', $studentId)
+            ->where('student_id', $student->id)
             ->get();
         
         return view('student.student-subjects', compact('enrollments'));

@@ -36,6 +36,7 @@ class RegisteredUserController extends Controller
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
 
+        // Create User record
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -43,6 +44,7 @@ class RegisteredUserController extends Controller
             'role' => 'student',
         ]);
 
+        // Create corresponding Student record
         Student::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -57,6 +59,6 @@ class RegisteredUserController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('dashboard', absolute: false));
+        return redirect(route('student-dashboard'));
     }
 }

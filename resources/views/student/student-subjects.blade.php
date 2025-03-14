@@ -9,26 +9,32 @@
             Enrolled Subjects
         </div>
         <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Subject Name</th>
-                        <th>Code</th>
-                        <th>Description</th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($enrollments as $enrollment)
-                    <tr>
-                        <td>{{ $enrollment->subject->name }}</td>
-                        <td>{{ $enrollment->subject->code }}</td>
-                        <td>{{ $enrollment->subject->description }}</td>
-                        <td>{{ $enrollment->status }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            @if($enrollments->isEmpty())
+                <div class="alert alert-info">
+                    No subjects enrolled yet.
+                </div>
+            @else
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Subject Name</th>
+                            <th>Code</th>
+                            <th>Description</th>
+                            <th>Status</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($enrollments as $enrollment)
+                        <tr>
+                            <td>{{ $enrollment->subject->name }}</td>
+                            <td>{{ $enrollment->subject->code }}</td>
+                            <td>{{ $enrollment->subject->description }}</td>
+                            <td>{{ $enrollment->status }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
         </div>
     </div>
 </div>

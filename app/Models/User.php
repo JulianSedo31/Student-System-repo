@@ -46,4 +46,10 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+
+    // Add relationship to Student model
+    public function student()
+    {
+        return $this->hasOne(Student::class, 'email', 'email');
+    }
 }

@@ -9,26 +9,32 @@
             Grade Summary
         </div>
         <div class="card-body">
-            <table class="table table-bordered">
-                <thead>
-                    <tr>
-                        <th>Subject</th>
-                        <th>Code</th>
-                        <th>Grade</th>
-                        <th>Remarks</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach($grades as $grade)
-                    <tr>
-                        <td>{{ $grade->subject->name }}</td>
-                        <td>{{ $grade->subject->code }}</td>
-                        <td>{{ $grade->grade }}</td>
-                        <td>{{ $grade->remarks }}</td>
-                    </tr>
-                    @endforeach
-                </tbody>
-            </table>
+            @if($grades->isEmpty())
+                <div class="alert alert-info">
+                    No grades available yet.
+                </div>
+            @else
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Subject</th>
+                            <th>Code</th>
+                            <th>Grade</th>
+                            <th>Remarks</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach($grades as $grade)
+                        <tr>
+                            <td>{{ $grade->subject->name }}</td>
+                            <td>{{ $grade->subject->code }}</td>
+                            <td>{{ $grade->grade }}</td>
+                            <td>{{ $grade->remarks }}</td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            @endif
         </div>
     </div>
 </div>
