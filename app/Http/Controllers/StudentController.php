@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Grade;
 use App\Models\Subject;
+use App\Models\Enrollment;
 
 class StudentController extends Controller
 {
@@ -172,10 +173,10 @@ class StudentController extends Controller
     public function showSubjects()
     {
         $student = Auth::user();
-        $subjects = Subject::whereHas('enrollments', function($query) use ($student) {
-            $query->where('student_id', $student->id);
-        })->get();
+        $enrollments = Enrollment::with('subject')
+            ->where('student_id', $student->id)
+            ->get();
         
-        return view('student.subjects', compact('subjects'));
+        return view('student.subjects', ['enrollments' => $enrollments]);
     }
 }

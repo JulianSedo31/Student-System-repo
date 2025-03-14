@@ -34,9 +34,12 @@ Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth:web', 'verified'])->name('dashboard');
 
-// Student routes
-Route::middleware(['auth:web', 'role:student'])->group(function () {
-    Route::get('/student/dashboard', function () {
+// Student routes - place these before the auth routes
+Route::middleware(['auth'])->group(function () {
+    Route::get('/student-dashboard', function () {
+        if (auth()->user()->role !== 'student') {
+            return redirect('/dashboard');
+        }
         return view('student.dashboard');
     })->name('student.dashboard');
     
