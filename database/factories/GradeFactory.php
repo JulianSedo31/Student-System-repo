@@ -18,10 +18,13 @@ class GradeFactory extends Factory
      */
     public function definition(): array
     {
+        $grades = [0.00, 1.00, 1.25, 1.50, 1.75, 2.00, 2.25, 2.50, 2.75, 
+                   3.00, 3.25, 3.50, 3.75, 4.00, 4.25, 4.50, 4.75, 5.00];
+        
         return [
             'student_id' => Student::factory(),
             'subject_id' => Subject::factory(),
-            'grade' => $this->faker->randomFloat(1.0, 2.0, 3.0, 4.0, 5.0, 1.25, 2.75, 3.25, 1.50, 2.50, 3.50, 4.0, 5.0),
+            'grade' => $this->faker->randomElement($grades),
             'remarks' => $this->faker->sentence(),
         ];
     }

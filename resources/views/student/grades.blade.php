@@ -23,7 +23,7 @@
                     <tr>
                         <td>{{ $grade->subject->name }}</td>
                         <td>{{ $grade->subject->code }}</td>
-                        <td>{{ $grade->grade }}</td>
+                        <td>{{ number_format($grade->grade, 2) }}</td>
                         <td>{{ $grade->remarks }}</td>
                     </tr>
                     @endforeach

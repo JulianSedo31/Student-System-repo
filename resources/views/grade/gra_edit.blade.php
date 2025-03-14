@@ -17,7 +17,17 @@
         </div>
         <div class="form-group">
             <label for="grade">Grade</label>
-            <input type="number" step="0.1" class="form-control" id="grade" name="grade" value="{{ $grade->grade }}" required>
+            <input type="number" 
+                   step="0.25" 
+                   min="0.00" 
+                   max="5.00" 
+                   class="form-control" 
+                   id="grade" 
+                   name="grade" 
+                   value="{{ number_format($grade->grade, 2) }}" 
+                   required 
+                   pattern="\d+(\.\d{2})?"
+                   placeholder="0.00">
         </div>
         <div class="form-group">
             <label for="remarks">Remarks</label>

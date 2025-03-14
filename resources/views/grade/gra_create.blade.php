@@ -16,7 +16,16 @@
         </div>
         <div class="form-group">
             <label for="grade">Grade</label>
-            <input type="number" step="0.1" class="form-control" id="grade" name="grade" required>
+            <input type="number" 
+                   step="0.25" 
+                   min="0.00" 
+                   max="5.00" 
+                   class="form-control" 
+                   id="grade" 
+                   name="grade" 
+                   required 
+                   pattern="\d+(\.\d{2})?"
+                   placeholder="0.00">
         </div>
         <div class="form-group">
             <label for="remarks">Remarks</label>

@@ -24,7 +24,7 @@ class UpdateGradeRequest extends FormRequest
         return [
             'student_id' => 'required|integer|exists:students,id',
             'subject_id' => 'required|integer|exists:subjects,id',
-            'grade' => 'required|numeric|min:1.0|max:5.0',
+            'grade' => 'required|numeric|between:0.00,5.00|regex:/^\d+(\.\d{2})?$/',
             'remarks' => 'nullable|string|max:255',
         ];
     }

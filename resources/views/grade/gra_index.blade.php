@@ -52,7 +52,7 @@
                     <td>{{ $grade->id }}</td>
                     <td>{{ $grade->student_id }}</td>
                     <td>{{ $grade->subject_id }}</td>
-                    <td>{{ $grade->grade }}</td>
+                    <td>{{ number_format($grade->grade, 2) }}</td>
                     <td>{{ $grade->remarks }}</td>
                     <td>
                         <a href="#" onclick="viewGrade({{ json_encode($grade) }})"><i class="fa-solid fa-eye"></i></a>&nbsp
@@ -79,13 +79,16 @@
         form.submit();
     }
 
+    function formatGrade(grade) {
+        return parseFloat(grade).toFixed(2);
+    }
+
     function editGrade(grade) {
         document.getElementById('editStudentId').value = grade.student_id;
         document.getElementById('editSubjectId').value = grade.subject_id;
-        document.getElementById('editGrade').value = grade.grade;
+        document.getElementById('editGrade').value = formatGrade(grade.grade);
         document.getElementById('editRemarks').value = grade.remarks;
         
-        // Set the form action to the correct route
         document.getElementById('editGradeForm').action = "{{ url('grade') }}/" + grade.id;
 
         var editModal = new bootstrap.Modal(document.getElementById('editGradeModal'));
@@ -96,7 +99,7 @@
         document.getElementById('viewGradeId').textContent = grade.id;
         document.getElementById('viewStudentId').textContent = grade.student_id;
         document.getElementById('viewSubjectId').textContent = grade.subject_id;
-        document.getElementById('viewGrade').textContent = grade.grade;
+        document.getElementById('viewGrade').textContent = formatGrade(grade.grade);
         document.getElementById('viewRemarks').textContent = grade.remarks;
 
         var viewModal = new bootstrap.Modal(document.getElementById('viewGradeModal'));
@@ -129,7 +132,16 @@
                     </div>
                     <div class="form-group">
                         <label for="grade">Grade</label>
-                        <input type="number" step="0.1" class="form-control" id="grade" name="grade" required>
+                        <input type="number" 
+                               step="0.25" 
+                               min="0.00" 
+                               max="5.00" 
+                               class="form-control" 
+                               id="grade" 
+                               name="grade" 
+                               required 
+                               pattern="\d+(\.\d{2})?"
+                               placeholder="0.00">
                     </div>
                     <div class="form-group">
                         <label for="remarks">Remarks</label>
@@ -164,7 +176,16 @@
                     </div>
                     <div class="form-group">
                         <label for="editGrade">Grade</label>
-                        <input type="number" step="0.1" class="form-control" id="editGrade" name="grade" required>
+                        <input type="number" 
+                               step="0.25" 
+                               min="0.00" 
+                               max="5.00" 
+                               class="form-control" 
+                               id="editGrade" 
+                               name="grade" 
+                               required 
+                               pattern="\d+(\.\d{2})?"
+                               placeholder="0.00">
                     </div>
                     <div class="form-group">
                         <label for="editRemarks">Remarks</label>
