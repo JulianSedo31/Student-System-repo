@@ -7,15 +7,14 @@ use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\GradeController;
 use App\Http\Controllers\Auth\StudentAuthController;
 use App\Http\Controllers\Auth\AdminAuthController;
+use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->name('dashboard');
+Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
 Route::get('/view', function () {
     return view('view');
@@ -47,6 +46,9 @@ Route::middleware(['auth'])->group(function () {
     // Student grades and subjects
     Route::get('/student-grades', [StudentController::class, 'showGrades'])->name('student.grades');
     Route::get('/student-subjects', [StudentController::class, 'showSubjects'])->name('student.subjects');
+
+    // Profile routes
+    Route::get('/profile/edit', [ProfileController::class, 'edit'])->name('profile.edit');
 });
 
 require __DIR__.'/auth.php';

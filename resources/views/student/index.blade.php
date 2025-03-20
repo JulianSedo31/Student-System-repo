@@ -18,14 +18,16 @@
     @endif
 
     <div class="card mb-4">
-        <div class="card-header">
-            <i class="fas fa-table me-1"></i>
-            DataTable Example
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <div>
+                <i class="fas fa-table me-1"></i>
+                Student List
+            </div>
             <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addStudentModal">Add Student</button>
         </div>
         
         <div class="card-body">
-            <table id="datatablesSimple">
+            <table class="table table-striped">
                 <thead>
                     <tr>
                         <th>ID</th>
@@ -35,59 +37,75 @@
                         <th>Age</th>
                         <th>Moto</th>
                         <th>College Level</th>
-                        <th>Password</th>
                         <th>Action</th>
                     </tr>
                 </thead>
-                <tfoot>
-                    <tr>
-                        <th>ID</th>
-                        <th>Name</th>
-                        <th>Address</th>
-                        <th>Email</th>
-                        <th>Age</th>
-                        <th>Moto</th>
-                        <th>College Level</th>
-                        <th>Password</th>
-                        <th>Action</th>
-                    </tr>
-                </tfoot>
                 <tbody>
                 @foreach ($studentList as $student)
                 <tr>
-                        <td>{{$student->id}}</td>
-                        <td>{{$student->name}}</td>
-                        <td>{{$student->address}}</td>
-                        <td>{{$student->email}}</td>
-                        <td>{{$student->age}}</td>
-                        <td>{{$student->moto}}</td>
-                        <td>{{$student->college_level}}</td>
-                        <td>{{$student->password}}</td>
-                        <td>
-                        <a href="#" onclick="viewStudent({{ json_encode($student) }})"><i class="fa-solid fa-eye"></i></a>&nbsp
-                        <a href="#" onclick="editStudent({{ json_encode($student) }})"><i class="fa-solid fa-pen-to-square"></i></a>&nbsp
-                        <a href="#" onclick="deleteStudent({{$student->id}})"><i class="fa-solid fa-trash"></i></a>&nbsp
-                        
-                            <form method="POST" action="{{route('student.destroy', $student->id)}}" id="student-form-{{$student->id}}">
-                                @csrf
-                               {{ method_field('DELETE') }}
-                            </form>
-
+                    <td>{{ $student->id }}</td>
+                    <td>{{ $student->name }}</td>
+                    <td>{{ $student->address }}</td>
+                    <td>{{ $student->email }}</td>
+                    <td>{{ $student->age }}</td>
+                    <td>{{ $student->moto }}</td>
+                    <td>{{ $student->college_level }}</td>
+                    <td>
+                        <a href="#" onclick="viewStudent({{ json_encode($student) }})"><i class="fa-solid fa-eye"></i></a>&nbsp;
+                        <a href="#" onclick="editStudent({{ json_encode($student) }})"><i class="fa-solid fa-pen-to-square"></i></a>&nbsp;
+                        <a href="#" onclick="event.preventDefault(); Swal.fire({
+                            title: 'Are you sure?',
+                            text: 'You won\'t be able to revert this!',
+                            icon: 'warning',
+                            showCancelButton: true,
+                            confirmButtonColor: '#3085d6',
+                            cancelButtonColor: '#d33',
+                            confirmButtonText: 'Yes, delete it!'
+                        }).then((result) => {
+                            if (result.isConfirmed) {
+                                document.getElementById('student-form-{{ $student->id }}').submit();
+                            }
+                        });"><i class="fa-solid fa-trash"></i></a>
+                        <form method="POST" action="{{ route('student.destroy', $student->id) }}" id="student-form-{{ $student->id }}" style="display: none;">
+                            @csrf
+                            @method('DELETE')
+                        </form>
                     </td>
-                    </tr>
+                </tr>
                 @endforeach
                 </tbody>
             </table>
         </div>
     </div>
 </div>
+
+<!-- Include SweetAlert2 -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
 <script>
-    function deleteStudent(id){
-        alert(id);
-        form=document.getElementById('student-form-'+id);
-        form.submit();
+    function editStudent(student) {
+        document.getElementById('editStudentName').value = student.name;
+        document.getElementById('editStudentAddress').value = student.address;
+        document.getElementById('editStudentEmail').value = student.email;
+        document.getElementById('editStudentAge').value = student.age;
+        document.getElementById('editStudentMoto').value = student.moto;
+        document.getElementById('editStudentCollegeLevel').value = student.college_level;
+        document.getElementById('editStudentForm').action = "{{ url('student') }}/" + student.id;
+        new bootstrap.Modal(document.getElementById('editStudentModal')).show();
+    }
+
+    function viewStudent(student) {
+        document.getElementById('viewStudentId').textContent = student.id;
+        document.getElementById('viewStudentName').textContent = student.name;
+        document.getElementById('viewStudentAddress').textContent = student.address;
+        document.getElementById('viewStudentEmail').textContent = student.email;
+        document.getElementById('viewStudentAge').textContent = student.age;
+        document.getElementById('viewStudentMoto').textContent = student.moto;
+        document.getElementById('viewStudentCollegeLevel').textContent = student.college_level;
+        new bootstrap.Modal(document.getElementById('viewStudentModal')).show();
     }
 </script>
+
 <!-- Include Bootstrap JS -->
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js"></script>
@@ -138,23 +156,6 @@
         </div>
     </div>
 </div>
-
-<script>
-    function editStudent(student) {
-        document.getElementById('editStudentName').value = student.name;
-        document.getElementById('editStudentAddress').value = student.address;
-        document.getElementById('editStudentEmail').value = student.email;
-        document.getElementById('editStudentAge').value = student.age;
-        document.getElementById('editStudentMoto').value = student.moto;
-        document.getElementById('editStudentCollegeLevel').value = student.college_level;
-        
-        // Set the form action to the correct route
-        document.getElementById('editStudentForm').action = "{{ url('student') }}/" + student.id;
-
-        var editModal = new bootstrap.Modal(document.getElementById('editStudentModal'));
-        editModal.show();
-    }
-</script>
 
 <!-- Add Modal -->
 <div class="modal fade" id="addStudentModal" tabindex="-1" aria-labelledby="addStudentModalLabel" aria-hidden="true">
@@ -223,21 +224,5 @@
         </div>
     </div>
 </div>
-
-<script>
-    function viewStudent(student) {
-        document.getElementById('viewStudentId').textContent = student.id;
-        document.getElementById('viewStudentName').textContent = student.name;
-        document.getElementById('viewStudentAddress').textContent = student.address;
-        document.getElementById('viewStudentEmail').textContent = student.email;
-        document.getElementById('viewStudentAge').textContent = student.age;
-        document.getElementById('viewStudentMoto').textContent = student.moto;
-        document.getElementById('viewStudentCollegeLevel').textContent = student.college_level;
-        document.getElementById('viewStudentPassword').textContent = student.password;
-
-        var viewModal = new bootstrap.Modal(document.getElementById('viewStudentModal'));
-        viewModal.show();
-    }
-</script>
 
 @endsection
