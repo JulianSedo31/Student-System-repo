@@ -14,6 +14,9 @@ class DashboardController extends Controller
         $enrollmentCount = Enrollment::count(); // Count of enrollments
         $gradeCount = Grade::count(); // Count of grades
 
+        // Debugging output
+        dd(compact('studentCount', 'subjectCount', 'enrollmentCount', 'gradeCount'));
+
         return view('layouts.dashboardlayout', compact('studentCount', 'subjectCount', 'enrollmentCount', 'gradeCount'));
     }
 }
